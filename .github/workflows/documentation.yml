@@ -30,10 +30,9 @@ jobs:
           curl --location --header "PRIVATE-TOKEN: ${GITLAB_PRIVATE_TOKEN}" --output artifact.zip "$ARTIFACT_URL"
 
           # Unzip artifact
-          unzip artifact.zip -d public/
+          unzip artifact.zip
           rm artifact.zip
-          cd public/
-          ls
+
       - name: Upload GitHub Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
