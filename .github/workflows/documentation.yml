@@ -12,6 +12,9 @@ jobs:
   fetch_and_deploy:
     runs-on: ubuntu-latest
 
+    environment:
+      name: github-pages
+
     steps:
       - name: Checkout GitHub Repository
         uses: actions/checkout@v4
