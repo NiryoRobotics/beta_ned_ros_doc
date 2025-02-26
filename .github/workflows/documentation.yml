@@ -22,8 +22,8 @@ jobs:
           
           GITLAB_PROJECT_ID="66"
           GITLAB_JOB_NAME="pages"
-          ARTIFACT_URL="https://gitlab01.niryotech.com/api/v4/projects/${GITLAB_PROJECT_ID}/jobs/artifacts/main/download?job=${GITLAB_JOB_NAME}"
-
+          ARTIFACT_URL="https://gitlab01.niryotech.com/api/v4/projects/66/jobs/39681/artifacts"
+          # ARTIFACT_URL="https://gitlab01.niryotech.com/api/v4/projects/${GITLAB_PROJECT_ID}/jobs/artifacts/main/download?job=${GITLAB_JOB_NAME}"
           # Download the artifact from GitLab
           curl --location --header "PRIVATE-TOKEN: ${GITLAB_PRIVATE_TOKEN}" --output artifact.zip "$ARTIFACT_URL"
 
