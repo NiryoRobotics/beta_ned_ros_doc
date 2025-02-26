@@ -16,8 +16,6 @@ jobs:
       name: github-pages
 
     steps:
-      - name: Checkout GitHub Repository
-        uses: actions/checkout@v4
       - name: Download Documentation from GitLab
         env:
           GITLAB_PRIVATE_TOKEN: ${{ secrets.GITLAB_PRIVATE_TOKEN }}
