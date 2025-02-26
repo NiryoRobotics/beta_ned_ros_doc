@@ -30,13 +30,14 @@ jobs:
           curl --location --header "PRIVATE-TOKEN: ${GITLAB_PRIVATE_TOKEN}" --output artifact.zip "$ARTIFACT_URL"
 
           # Unzip artifact
-          unzip artifact.zip
+          unzip artifact.zip -d public/
           rm artifact.zip
 
-      - name: Upload GitHub Pages Artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public/
-
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        with:
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: public
+          force_orphan: true
