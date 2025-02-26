@@ -15,27 +15,75 @@ jobs:
     environment:
       name: github-pages
 
+
     steps:
       - name: Download Documentation from GitLab
         env:
           GITLAB_PRIVATE_TOKEN: ${{ secrets.GITLAB_PRIVATE_TOKEN }}
         run: |
-          echo " Fetching latest artifact from GitLab..."
+          echo "🔹 Fetching latest artifact from GitLab..."
           
           GITLAB_PROJECT_ID="66"
           GITLAB_JOB_NAME="pages"
-          ARTIFACT_URL="https://gitlab01.niryotech.com/api/v4/projects/66/jobs/39681/artifacts"
-          # ARTIFACT_URL="https://gitlab01.niryotech.com/api/v4/projects/${GITLAB_PROJECT_ID}/jobs/artifacts/main/download?job=${GITLAB_JOB_NAME}"
-          # Download the artifact from GitLab
+
+          # Get the latest successful job ID dynamically
+          LATEST_JOB_ID=$(curl --silent --header "PRIVATE-TOKEN: ${GITLAB_PRIVATE_TOKEN}" \
+            "https://gitlab01.niryotech.com/api/v4/projects/${GITLAB_PROJECT_ID}/jobs?scope=success" \
+            | jq -r --arg JOB_NAME "$GITLAB_JOB_NAME" '[.[] | select(.name==$JOB_NAME)] | sort_by(.created_at) | reverse | .[0].id')
+
+          if [[ -z "$LATEST_JOB_ID" ]]; then
+            echo "❌ Failed to find a successful job for '$GITLAB_JOB_NAME'"
+            exit 1
+          fi
+
+          echo "✅ Found latest successful job ID: $LATEST_JOB_ID"
+
+          # Download the full artifact
+          ARTIFACT_URL="https://gitlab01.niryotech.com/api/v4/projects/${GITLAB_PROJECT_ID}/jobs/${LATEST_JOB_ID}/artifacts/download"
           curl --location --header "PRIVATE-TOKEN: ${GITLAB_PRIVATE_TOKEN}" --output artifact.zip "$ARTIFACT_URL"
 
-          # Unzip artifact
-          unzip artifact.zip -d public/
+          # Validate ZIP file
+          file artifact.zip || { echo "❌ Invalid artifact file!"; exit 1; }
+
+          # Extract the artifact (assuming the doc is inside "public/")
+          unzip -o artifact.zip -d extracted_artifact/
           rm artifact.zip
+
+          # Ensure the extracted directory is correct
+          ls -lah extracted_artifact/
+
+          # Move extracted content to public/ (if necessary)
+          mv extracted_artifact/public public/
+
       - name: Upload GitHub Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: public/
+          path: public/  # Only deploy the "public/" folder
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
+
+    # steps:
+    #   - name: Download Documentation from GitLab
+    #     env:
+    #       GITLAB_PRIVATE_TOKEN: ${{ secrets.GITLAB_PRIVATE_TOKEN }}
+    #     run: |
+    #       echo " Fetching latest artifact from GitLab..."
+          
+    #       GITLAB_PROJECT_ID="66"
+    #       GITLAB_JOB_NAME="pages"
+    #       ARTIFACT_URL="https://gitlab01.niryotech.com/api/v4/projects/66/jobs/39681/artifacts"
+    #       # ARTIFACT_URL="https://gitlab01.niryotech.com/api/v4/projects/${GITLAB_PROJECT_ID}/jobs/artifacts/main/download?job=${GITLAB_JOB_NAME}"
+    #       # Download the artifact from GitLab
+    #       curl --location --header "PRIVATE-TOKEN: ${GITLAB_PRIVATE_TOKEN}" --output artifact.zip "$ARTIFACT_URL"
+
+    #       # Unzip artifact
+    #       unzip artifact.zip -d public/
+    #       rm artifact.zip
+    #   - name: Upload GitHub Pages Artifact
+    #     uses: actions/upload-pages-artifact@v3
+    #     with:
+    #       path: public/
+
+    #   - name: Deploy to GitHub Pages
+    #     uses: actions/deploy-pages@v4
