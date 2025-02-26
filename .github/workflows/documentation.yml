@@ -25,15 +25,7 @@ jobs:
           ARTIFACT_URL="https://gitlab01.niryotech.com/api/v4/projects/${GITLAB_PROJECT_ID}/jobs/artifacts/main/download?job=${GITLAB_JOB_NAME}"
 
           # Download the artifact from GitLab
-          curl --header "PRIVATE-TOKEN: ${GITLAB_PRIVATE_TOKEN}" --output artifact.zip "$ARTIFACT_URL"
-
-          # Check response
-          echo "🔹 GitLab API Response:"
-          cat curl_response.log
-
-          # Check if the downloaded file is really a zip
-          file artifact.zip
-          ls -lah artifact.zip
+          curl --location --header "PRIVATE-TOKEN: ${GITLAB_PRIVATE_TOKEN}" --output artifact.zip "$ARTIFACT_URL"
 
           # Unzip artifact
           unzip artifact.zip -d public/
