@@ -1,32 +1,39 @@
-name: documentation
+name: Deploy Documentation to GitHub Pages
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  workflow_dispatch:  # Allows manual triggering of the workflow
 
 permissions:
   contents: write
+  pages: write
 
 jobs:
-  docs:
+  fetch_and_deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-      - name: Install dependencies
+      - name: Checkout GitHub Repository
+        uses: actions/checkout@v4
+      - name: Download Documentation from GitLab
+        env:
+          GITLAB_PRIVATE_TOKEN: ${{ secrets.GITLAB_PRIVATE_TOKEN }}
         run: |
-          python3 -m venv venv
-          source venv/bin/activate
-          pip install -r requirements.txt -r docs/requirements.txt
-      - name: Sphinx build
-        run: |
-          source venv/bin/activate
-          git fetch --tags --force
-          git checkout ${{ github.ref_name }}
-          scripts/build_docs_versioned.py public $(git tag --sort=-v:refname)
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+          echo " Fetching latest artifact from GitLab..."
+          
+          GITLAB_PROJECT_ID="66"
+          GITLAB_JOB_NAME="build_ned2_docs"
+          ARTIFACT_URL="https://gitlab.com/api/v4/projects/${GITLAB_PROJECT_ID}/jobs/artifacts/main/download?job=${GITLAB_JOB_NAME}"
+
+          # Download the artifact from GitLab
+          curl --header "PRIVATE-TOKEN: ${GITLAB_PRIVATE_TOKEN}" --output artifact.zip "$ARTIFACT_URL"
+
+          # Unzip artifact
+          unzip artifact.zip -d public/
+          rm artifact.zip
+      - name: Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          publish_branch: gh-pages
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: public
-          force_orphan: true
+          path: public/
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
