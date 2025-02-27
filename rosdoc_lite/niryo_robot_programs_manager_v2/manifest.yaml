@@ -1,0 +1,38 @@
+actions:
+- ExecuteProgram
+authors: Remi Lux <r.lux@niryo.com>
+brief: ''
+bugtracker: ''
+depends:
+- genmsg
+- python3-catkin-lint
+- catkin
+- roslint
+- niryo_robot_msgs
+- message_generation
+- message_runtime
+- std_msgs
+- python-yaml
+- rosbridge_server
+- rostest
+- actionlib_msgs
+- actionlib
+description: "- Save programs\n    - Launch saved python programs\n    - Get Saved\
+  \ programs"
+license: GPLv3
+maintainers: Remi Lux <r.lux@niryo.com>, Valentin Pitre <v.pitre@niryo.com>, Etienne
+  Rey-Coquais <e.rey-coquais@niryo.com>
+msgs:
+- Program
+- ProgramList
+package_type: package
+repo_url: ''
+srvs:
+- GetProgramList
+- CreateProgram
+- SetProgramAutorun
+- GetProgramAutorunInfos
+- UpdateProgram
+- GetProgram
+- DeleteProgram
+url: ''

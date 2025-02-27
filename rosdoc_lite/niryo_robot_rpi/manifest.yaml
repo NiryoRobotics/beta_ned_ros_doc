@@ -1,0 +1,41 @@
+actions: []
+authors: Edouard Renard, Valentin Pitre <v.pitre@niryo.com>
+brief: ''
+bugtracker: ''
+depends:
+- niryo_robot_msgs
+- sensor_msgs
+- roslint
+- message_generation
+- actionlib_msgs
+- catkin
+- message_runtime
+- roscpp
+- python3-catkin-lint
+- rospy
+- std_msgs
+description: Specific utilities for Ned RPI + custom Ned shield
+license: GPLv3
+maintainers: Valentin Pitre <v.pitre@niryo.com>
+msgs:
+- StorageStatus
+- DigitalIO
+- AnalogIO
+- LogStatus
+- AnalogIOState
+- HotspotButtonStatus
+- I2CComponent
+- DigitalIOState
+package_type: package
+repo_url: ''
+srvs:
+- SetPullup
+- SetIOMode
+- GetDigitalIO
+- GetAnalogIO
+- ScanI2CBus
+- LedBlinker
+- SetAnalogIO
+- ChangeMotorConfig
+- SetDigitalIO
+url: ''

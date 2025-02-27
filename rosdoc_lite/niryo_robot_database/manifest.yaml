@@ -1,0 +1,27 @@
+actions: []
+authors: Justin Mottier <j.mottier@niryo.com>
+brief: ''
+bugtracker: ''
+depends:
+- rospy
+- message_generation
+- sqlite3
+- message_runtime
+- roslint
+- python3-catkin-lint
+- catkin
+description: Handles sqlite database for the cloud
+license: GPLv3
+maintainers: Justin Mottier <j.mottier@niryo.com>
+msgs:
+- FilePath
+- Setting
+package_type: package
+repo_url: ''
+srvs:
+- RmFilePath
+- SetSettings
+- GetAllByType
+- AddFilePath
+- GetSettings
+url: ''
