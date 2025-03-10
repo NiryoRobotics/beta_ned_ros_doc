@@ -1,0 +1,44 @@
+actions: []
+authors: "R\xE9mi Lux <r.lux@niryo.com>"
+brief: ''
+bugtracker: ''
+depends:
+- message_generation
+- message_runtime
+- geometry_msgs
+- python3-catkin-lint
+- catkin
+- std_msgs
+description: Niryo &quot;Standards messages&quot; used in other Niryo Robot packages
+license: GPLv3
+maintainers: "R\xE9mi Lux <r.lux@niryo.com>, Corentin Ducatez <c.ducatez@niryo.com>,\
+  \ Valentin Pitre <v.pitre@niryo.com>"
+msgs:
+- ObjectPose
+- RobotState
+- CommandStatus
+- RPY
+- SoftwareVersion
+- BasicObject
+- HardwareStatus
+- MotorHeader
+- BasicObjectArray
+- BusState
+package_type: package
+repo_url: ''
+srvs:
+- GetNameDescriptionList
+- Trigger
+- AdvertiseShutdown
+- SetString
+- SetInt
+- GetFloatList
+- SetFloat
+- Ping
+- SetBool
+- SetFloatList
+- GetBool
+- GetStringList
+- GetInt
+- GetString
+url: ''

@@ -1,0 +1,32 @@
+actions: []
+authors: Remi Lux <r.lux@niryo.com>
+brief: ''
+bugtracker: ''
+depends:
+- python-yaml
+- catkin
+- python3-opencv
+- niryo_robot_msgs
+- sensor_msgs
+- rosbridge_server
+- message_generation
+- message_runtime
+- python-imaging
+- python3-catkin-lint
+- roslint
+- python-numpy
+description: Niryo vision package
+license: GPLv3
+maintainers: Remi Lux <r.lux@niryo.com>
+msgs:
+- ImageParameters
+package_type: package
+repo_url: ''
+srvs:
+- SetImageParameter
+- DebugMarkers
+- ObjDetection
+- TakePicture
+- Visualization
+- DebugColorDetection
+url: ''

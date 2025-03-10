@@ -1,0 +1,36 @@
+actions: []
+authors: Etienne Rey-Coquais, Edouard Renard
+brief: ''
+bugtracker: ''
+depends:
+- ttl_driver
+- std_msgs
+- niryo_moveit_config_standalone
+- robot_state_publisher
+- message_runtime
+- xacro
+- python3-catkin-lint
+- niryo_robot_database
+- hardware_interface
+- can_driver
+- code_coverage
+- sensor_msgs
+- roscpp
+- controller_manager
+- common
+- rostest
+- niryo_robot_description
+- message_generation
+- niryo_robot_msgs
+- catkin
+- roslint
+- actionlib
+description: Provides all hardware componant to control the joints of the robot.
+license: GPLv3
+maintainers: Etienne Rey-Coquais <e.rey-coquais@niryo.com>
+msgs: []
+package_type: package
+repo_url: ''
+srvs:
+- FactoryCalibration
+url: ''
