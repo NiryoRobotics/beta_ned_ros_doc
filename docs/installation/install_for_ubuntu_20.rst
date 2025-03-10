@@ -82,7 +82,8 @@ We also provide a *requirements.txt* file which lists all the required dependenc
 
 .. code:: bash
 
-    pip install -r ~/catkin_ws_niryo/src/ned_ros/requirements.txt
+    cd ~/catkin_ws_niryo
+    pip install -r src/ned_ros/requirements.txt
     rosdep update 
     rosdep install --from-paths src --ignore-src -r -y
 
